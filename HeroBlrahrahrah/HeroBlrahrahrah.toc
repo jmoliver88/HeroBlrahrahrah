@@ -1,0 +1,7 @@
+## Interface: 100005
+## Title: HeroBlrahrahrah
+## Notes: BLRAHRAHRAH
+## Author: Ow-Whisperwind
+## Version: 0.0.1
+
+HeroBlrahrahrah.lua
