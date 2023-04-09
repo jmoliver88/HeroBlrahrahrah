@@ -10,6 +10,13 @@ local sounds = {
 	569578,	--sound/spells/spell_ma_timewarp_impact_04.ogg
 }
 
+local spells = {
+	["Bloodlust"] = true,
+	["Heroism"] = true,
+	["Time Warp"] = true,
+	["Primal Rage"] = true,
+}
+
 local function OnLoad()
 	for _, fdid in pairs(sounds) do
 		MuteSoundFile(fdid)
@@ -17,17 +24,16 @@ local function OnLoad()
 end
 
 local function OnEvent()
-	local _, event, _, _, _, _, _, _, _, _, _, spellID, spellName, _, _ = CombatLogGetCurrentEventInfo();
-	if event == "SPELL_AURA_APPLIED" then 
-		if spellName == "Bloodlust" or spellName == "Heroism" or spellName == "Time Warp" or spellName == "Primal Rage" then
-			-- print(CombatLogGetCurrentEventInfo())
-			-- print("It Worked!");
-			PlaySoundFile(soundFile, "master");
-		end
+	local _, event, _, _, _, _, _, destGUID, _, _, _, spellID, spellName, _, _ = CombatLogGetCurrentEventInfo();
+	if event == "SPELL_AURA_APPLIED"
+		and spellName
+		and spells[spellName]
+		and destGUID == UnitGUID("player")
+	then 
+		PlaySoundFile(soundFile, "master");
 	end
 end
 
 local f = CreateFrame("Frame")
 f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 f:SetScript("OnEvent", OnEvent)
-
